@@ -5,6 +5,9 @@ import java.nio.ByteBuffer;
 // 16 bits signed (eq. to int)
 public class F2DOT14 {
 
+    public static final int SIZE = 16;
+    public static final int BYTES = SIZE / Byte.SIZE;
+
     private byte[] f2dot14;
 
     public F2DOT14(byte[] value) {

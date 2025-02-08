@@ -9,6 +9,8 @@ public enum Version16Dot16 {
 
     final byte[] version;
     final String name;
+    public static final int SIZE = 32;
+    public static final int BYTES = SIZE / Byte.SIZE;
 
     Version16Dot16(byte[] version, String name){
         this.version = version;

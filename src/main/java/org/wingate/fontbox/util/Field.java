@@ -10,8 +10,16 @@ public class Field<Unit> {
 
     protected List<Field<?>> innerFields;
 
+    public Field(Unit unit) {
+        this.unit = unit;
+        name = null;
+        description = null;
+
+        innerFields = new ArrayList<>();
+    }
+
     public Field() {
-        unit = null;
+        this(null);
         name = null;
         description = null;
 

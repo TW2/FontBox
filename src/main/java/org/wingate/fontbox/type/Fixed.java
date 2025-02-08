@@ -4,6 +4,10 @@ import java.nio.ByteBuffer;
 
 // 32 bits signed (eq. to long)
 public class Fixed {
+
+    public static final int SIZE = 32;
+    public static final int BYTES = SIZE / Byte.SIZE;
+
     private byte[] fixed;
 
     public Fixed(byte[] fixed) {
