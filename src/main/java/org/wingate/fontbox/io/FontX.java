@@ -2,6 +2,7 @@ package org.wingate.fontbox.io;
 
 import org.wingate.fontbox.type.UInt16;
 import org.wingate.fontbox.type.Version16Dot16;
+import org.wingate.fontbox.util.Reader;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -42,33 +43,20 @@ public class FontX {
         FontX fx = new FontX();
 
         // Font version (sfnt)
-        byte[] sfnt = new byte[4];
-        buffer.get(0, sfnt, 0, 4);
-        fx.version = (new Version16Dot16(sfnt)).getType();
+        Version16Dot16 version = (Version16Dot16) Reader.read(buffer, 0, new Version16Dot16());
+        fx.version = (version).getType();
 
         // numTables
-        byte[] numTables = new byte[2];
-        buffer.get(4, numTables, 0, 2);
-        UInt16 u16_1 = UInt16.decode(numTables);
-        fx.numTables = u16_1.getUint16();
+        fx.numTables = ((UInt16) Reader.read(buffer, 4, new UInt16(0))).getUint16();
 
         // searchRange
-        byte[] searchRange = new byte[2];
-        buffer.get(6, searchRange, 0, 2);
-        UInt16 u16_2 = UInt16.decode(searchRange);
-        fx.searchRange = u16_2.getUint16();
+        fx.searchRange = ((UInt16) Reader.read(buffer, 6, new UInt16(0))).getUint16();
 
         // entrySelector
-        byte[] entrySelector = new byte[2];
-        buffer.get(8, entrySelector, 0, 2);
-        UInt16 u16_3 = UInt16.decode(entrySelector);
-        fx.entrySelector = u16_3.getUint16();
+        fx.entrySelector = ((UInt16) Reader.read(buffer, 8, new UInt16(0))).getUint16();
 
-        // searchRange
-        byte[] rangeShift = new byte[2];
-        buffer.get(10, rangeShift, 0, 2);
-        UInt16 u16_4 = UInt16.decode(rangeShift);
-        fx.rangeShift = u16_4.getUint16();
+        // rangeShift
+        fx.rangeShift = ((UInt16) Reader.read(buffer, 10, new UInt16(0))).getUint16();
 
         // n tables
         for(int i=0, z=12; i<fx.numTables; i++){
