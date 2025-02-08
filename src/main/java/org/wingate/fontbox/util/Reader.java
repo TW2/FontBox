@@ -2,57 +2,49 @@ package org.wingate.fontbox.util;
 
 import org.wingate.fontbox.type.*;
 
-import java.math.BigInteger;
 import java.nio.ByteBuffer;
 
 public class Reader {
 
-    public static Object get(ByteBuffer buffer, int offset, Object ofClass){
+    public static ValueType read(ByteBuffer buffer, int offset, ValueType of){
+        byte[] bytes = new byte[of.getSize()];
+        buffer.get(offset, bytes, 0, of.getSize());
 
-        switch(ofClass){
-            case F2DOT14 x -> {
-                byte[] bytes = new byte[F2DOT14.SIZE];
-                buffer.get(offset, bytes, 0, F2DOT14.SIZE);
-                return new F2DOT14(bytes);
-            }
-            case Fixed x -> {
-                return null;
-            }
-            case FWORD x -> {
-                return null;
-            }
-            case LONGDATETIME x -> {
-                return null;
-            }
-            case UFWORD x -> {
-                return null;
-            }
-            case Byte x -> {
-                return null;
-            }
-            case UInt8 x -> {
-                return null;
-            }
-            case Short x -> {
-                return null;
-            }
-            case UInt16 x -> {
-                return null;
-            }
-            case UInt24 x -> {
-                return null;
-            }
-            case Integer x -> {
-                return null;
-            }
-            case UInt32 x -> {
-                return null;
-            }
-            case BigInteger x -> {
-                return null;
-            }
-            default -> throw new IllegalStateException("Unexpected value: " + ofClass);
+        ValueType result = null;
+
+        switch(of){
+            case F2DOT14 x -> result = new F2DOT14(bytes);
+            case Fixed x -> result = new Fixed(bytes);
+            case FWORD x -> result = new FWORD(bytes);
+            case LONGDATETIME x -> result = new LONGDATETIME(bytes);
+            case UFWORD x -> result = new UFWORD(bytes);
+            case UInt8 x -> result = new UInt8(bytes);
+            case UInt16 x -> result = new UInt16(bytes);
+            case UInt24 x -> result = new UInt24(bytes);
+            case UInt32 x -> result = new UInt32(bytes);
+            case Version16Dot16 x -> result = new Version16Dot16(bytes);
+            default -> { }
         }
 
+        return result;
     }
+
+    public static short readShort(ByteBuffer buffer, int offset, int size){
+        byte[] bytes = new byte[size];
+        buffer.get(offset, bytes, 0, size);
+        return buffer.getShort();
+    }
+
+    public static int readInt(ByteBuffer buffer, int offset, int size){
+        byte[] bytes = new byte[size];
+        buffer.get(offset, bytes, 0, size);
+        return buffer.getInt();
+    }
+
+    public static long readLong(ByteBuffer buffer, int offset, int size){
+        byte[] bytes = new byte[size];
+        buffer.get(offset, bytes, 0, size);
+        return buffer.getLong();
+    }
+
 }

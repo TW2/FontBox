@@ -11,6 +11,10 @@ public class LONGDATETIME extends ValueType {
         SIZE = 64;
     }
 
+    public LONGDATETIME(byte[] bytes) {
+        this(new BigInteger(bytes));
+    }
+
     public BigInteger getLongDateTime() {
         return longDateTime;
     }

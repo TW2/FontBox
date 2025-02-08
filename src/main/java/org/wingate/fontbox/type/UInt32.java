@@ -12,6 +12,10 @@ public class UInt32 extends ValueType {
         SIZE = 32;
     }
 
+    public UInt32(byte[] bytes) {
+        this(UInt32.decode(bytes).getUint32());
+    }
+
     public static byte[] encode(UInt32 value) {
         byte[] bytes = new byte[SIZE / Byte.SIZE];
         bytes[3] = (byte) (value.getUint32());

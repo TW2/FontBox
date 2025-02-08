@@ -11,6 +11,10 @@ public class UInt8 extends ValueType {
         SIZE = 8;
     }
 
+    public UInt8(byte[] bytes) {
+        this(UInt8.decode(bytes).getUint8());
+    }
+
     public static byte[] encode(UInt8 value) {
         return new byte[]{(byte) value.getUint8()};
     }

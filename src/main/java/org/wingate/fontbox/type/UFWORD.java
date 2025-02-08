@@ -13,6 +13,10 @@ public class UFWORD extends ValueType {
         this(new UInt16((0)));
     }
 
+    public UFWORD(byte[] bytes) {
+        this(UInt16.decode(bytes));
+    }
+
     public UInt16 getUfword() {
         return ufword;
     }

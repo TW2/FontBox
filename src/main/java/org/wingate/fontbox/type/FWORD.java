@@ -1,5 +1,7 @@
 package org.wingate.fontbox.type;
 
+import java.nio.ByteBuffer;
+
 public class FWORD extends ValueType {
 
     private int fword;
@@ -11,6 +13,11 @@ public class FWORD extends ValueType {
 
     public FWORD() {
         this(0);
+    }
+
+    public FWORD(byte[] bytes) {
+        ByteBuffer buffer = ByteBuffer.wrap(bytes);
+        this(buffer.getInt());
     }
 
     public int getFword() {

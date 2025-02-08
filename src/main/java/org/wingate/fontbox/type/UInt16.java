@@ -9,6 +9,10 @@ public class UInt16 extends ValueType {
         SIZE = 16;
     }
 
+    public UInt16(byte[] bytes) {
+        this(UInt16.decode(bytes).getUint16());
+    }
+
     public static byte[] encode(UInt16 value) {
         byte[] bytes = new byte[SIZE / Byte.SIZE];
         bytes[1] = (byte) (value.getUint16());
