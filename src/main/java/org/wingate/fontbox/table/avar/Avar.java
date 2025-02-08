@@ -72,9 +72,9 @@ public class Avar extends Entity implements TableIO {
     }
 
     @Override
-    public void read(ByteBuffer buffer, long offset, long length) {
+    public void read(ByteBuffer buffer, int offset, int length) {
         // Cursor
-        long cursor = offset;
+        int cursor = offset;
 
 
 
