@@ -5,6 +5,7 @@ import org.wingate.fontbox.type.UInt16;
 import org.wingate.fontbox.util.Entity;
 import org.wingate.fontbox.util.Field;
 
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,7 +71,17 @@ public class Avar extends Entity implements TableIO {
     }
 
     @Override
-    public void read(long offset, long length) {
-        
+    public void read(ByteBuffer buffer, long offset, long length) {
+        // Cursor
+        long cursor = offset;
+
+        // Read major version
+
+        // Read minor version
+        // Read (reserved)
+        // Read axis count
+
+        // Init segment map
+        // -- Read segment map
     }
 }
