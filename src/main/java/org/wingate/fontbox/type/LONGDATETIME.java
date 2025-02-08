@@ -2,15 +2,13 @@ package org.wingate.fontbox.type;
 
 import java.math.BigInteger;
 
-public class LONGDATETIME {
-
-    public static final int SIZE = 64;
-    public static final int BYTES = SIZE / Byte.SIZE;
+public class LONGDATETIME extends ValueType {
 
     private BigInteger longDateTime;
 
     public LONGDATETIME(BigInteger value) {
         this.longDateTime = value;
+        SIZE = 64;
     }
 
     public BigInteger getLongDateTime() {

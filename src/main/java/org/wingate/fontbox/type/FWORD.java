@@ -1,18 +1,16 @@
 package org.wingate.fontbox.type;
 
-public class FWORD {
-
-    public static final int SIZE = 16;
-    public static final int BYTES = SIZE / Byte.SIZE;
+public class FWORD extends ValueType {
 
     private int fword;
 
     public FWORD(int value) {
         this.fword = value;
+        SIZE = 16;
     }
 
     public FWORD() {
-        fword = 0;
+        this(0);
     }
 
     public int getFword() {

@@ -1,46 +1,67 @@
 package org.wingate.fontbox.type;
 
-public enum Version16Dot16 {
-    Unknown(new byte[]{0x00, 0x00, 0x00, 0x00}, "Unknown"),
-    TrueType(new byte[]{0x00, 0x01, 0x00, 0x00}, "TrueType Default"),
-    TrueTypeApple(new byte[]{0x54, 0x52, 0x55, 0x45}, "TrueType Apple"),
-    Type1(new byte[]{0x54, 0x59, 0x50, 0x31}, "Type1"),
-    CFF_OTTO(new byte[]{0x4F, 0x54, 0x54, 0x4F}, "CFF");
+public class Version16Dot16 extends ValueType {
 
-    final byte[] version;
-    final String name;
-    public static final int SIZE = 32;
-    public static final int BYTES = SIZE / Byte.SIZE;
+    public enum Type {
+        Unknown(new byte[]{0x00, 0x00, 0x00, 0x00}, "Unknown"),
+        TrueType(new byte[]{0x00, 0x01, 0x00, 0x00}, "TrueType Default"),
+        TrueTypeApple(new byte[]{0x54, 0x52, 0x55, 0x45}, "TrueType Apple"),
+        Type1(new byte[]{0x54, 0x59, 0x50, 0x31}, "Type1"),
+        CFF_OTTO(new byte[]{0x4F, 0x54, 0x54, 0x4F}, "CFF");
 
-    Version16Dot16(byte[] version, String name){
-        this.version = version;
-        this.name = name;
-    }
+        final byte[] version;
+        final String name;
 
-    public byte[] getVersion() {
-        return version;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public static Version16Dot16 get(byte[] bytes){
-        Version16Dot16 vd = Unknown;
-
-        for(Version16Dot16 v : values()){
-            byte[] vBytes = v.getVersion();
-            if(
-                bytes[0] == vBytes[0] &&
-                bytes[1] == vBytes[1] &&
-                bytes[2] == vBytes[2] &&
-                bytes[3] == vBytes[3]
-            ){
-                vd = v;
-                break;
-            }
+        Type(byte[] version, String name){
+            this.version = version;
+            this.name = name;
         }
 
-        return vd;
+        public byte[] getVersion() {
+            return version;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public static Type get(byte[] bytes){
+            Type vd = Unknown;
+
+            for(Type v : values()){
+                byte[] vBytes = v.getVersion();
+                if(
+                        bytes[0] == vBytes[0] &&
+                                bytes[1] == vBytes[1] &&
+                                bytes[2] == vBytes[2] &&
+                                bytes[3] == vBytes[3]
+                ){
+                    vd = v;
+                    break;
+                }
+            }
+
+            return vd;
+        }
+    }
+
+    private Type type;
+
+    public Version16Dot16(byte[] bytes){
+        type = Type.get(bytes);
+        SIZE = 32;
+    }
+
+    public Version16Dot16(){
+        type = Type.Unknown;
+        SIZE = 32;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 }

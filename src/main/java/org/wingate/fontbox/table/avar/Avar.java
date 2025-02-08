@@ -2,6 +2,7 @@ package org.wingate.fontbox.table.avar;
 
 import org.wingate.fontbox.table.TableIO;
 import org.wingate.fontbox.type.UInt16;
+import org.wingate.fontbox.type.Version16Dot16;
 import org.wingate.fontbox.util.Entity;
 import org.wingate.fontbox.util.Field;
 
@@ -74,6 +75,8 @@ public class Avar extends Entity implements TableIO {
     public void read(ByteBuffer buffer, long offset, long length) {
         // Cursor
         long cursor = offset;
+
+
 
         // Read major version
 

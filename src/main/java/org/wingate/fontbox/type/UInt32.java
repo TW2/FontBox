@@ -1,9 +1,7 @@
 package org.wingate.fontbox.type;
 
-public class UInt32 {
+public class UInt32 extends ValueType {
     private static final long MAX_VALUE_INT = 0xffffffffL;
-    public static final int SIZE = 32;
-    public static final int BYTES = SIZE / Byte.SIZE;
     public static final UInt32 ZERO = new UInt32(0);
     public static final UInt32 MAX_VALUE = new UInt32(MAX_VALUE_INT);
 
@@ -11,10 +9,11 @@ public class UInt32 {
 
     public UInt32(long value) {
         this.uint32 = value;
+        SIZE = 32;
     }
 
     public static byte[] encode(UInt32 value) {
-        byte[] bytes = new byte[BYTES];
+        byte[] bytes = new byte[SIZE / Byte.SIZE];
         bytes[3] = (byte) (value.getUint32());
         bytes[2] = (byte) (value.getUint32() >>>  8);
         bytes[1] = (byte) (value.getUint32() >>> 16);

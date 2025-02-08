@@ -1,15 +1,14 @@
 package org.wingate.fontbox.type;
 
-public class UInt8 {
+public class UInt8 extends ValueType {
     private static final int MAX_VALUE_INT = 0xff;
-    private static final int SIZE = 8;
-    public static final int BYTES = SIZE / Byte.SIZE;
     public static final UInt8 MAX_VALUE = new UInt8(MAX_VALUE_INT);
 
     private int uint8;
 
     public UInt8(int value) {
         this.uint8 = value;
+        SIZE = 8;
     }
 
     public static byte[] encode(UInt8 value) {

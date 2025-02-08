@@ -1,9 +1,7 @@
 package org.wingate.fontbox.type;
 
-public class UInt24 {
+public class UInt24 extends ValueType {
     private static final int MAX_VALUE_INT = 0x00ffffff;
-    public static final int SIZE = 24;
-    public static final int BYTES = SIZE / Byte.SIZE;
     public static final UInt24 ZERO = new UInt24(0);
     public static final UInt24 MAX_VALUE = new UInt24(MAX_VALUE_INT);
 
@@ -11,10 +9,11 @@ public class UInt24 {
 
     public UInt24(int value) {
         this.uint24 = value;
+        SIZE = 24;
     }
 
     public static byte[] encode(UInt24 value) {
-        byte[] bytes = new byte[BYTES];
+        byte[] bytes = new byte[SIZE / Byte.SIZE];
         bytes[2] = (byte) (value.getUint24());
         bytes[1] = (byte) (value.getUint24() >>>  8);
         bytes[0] = (byte) (value.getUint24() >>> 16);

@@ -3,15 +3,13 @@ package org.wingate.fontbox.type;
 import java.nio.ByteBuffer;
 
 // 16 bits signed (eq. to int)
-public class F2DOT14 {
-
-    public static final int SIZE = 16;
-    public static final int BYTES = SIZE / Byte.SIZE;
+public class F2DOT14 extends ValueType {
 
     private byte[] f2dot14;
 
     public F2DOT14(byte[] value) {
         this.f2dot14 = value;
+        SIZE = 16;
     }
 
     public byte[] getF2dot14() {

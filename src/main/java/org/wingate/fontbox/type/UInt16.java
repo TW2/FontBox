@@ -1,17 +1,16 @@
 package org.wingate.fontbox.type;
 
-public class UInt16 {
-    public static final int SIZE = 16;
-    public static final int BYTES = SIZE / Byte.SIZE;
+public class UInt16 extends ValueType {
 
     private int uint16;
 
     public UInt16(int value) {
         this.uint16 = value;
+        SIZE = 16;
     }
 
     public static byte[] encode(UInt16 value) {
-        byte[] bytes = new byte[BYTES];
+        byte[] bytes = new byte[SIZE / Byte.SIZE];
         bytes[1] = (byte) (value.getUint16());
         bytes[0] = (byte) (value.getUint16() >>>  8);
         return bytes;

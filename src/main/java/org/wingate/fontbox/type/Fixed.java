@@ -3,15 +3,13 @@ package org.wingate.fontbox.type;
 import java.nio.ByteBuffer;
 
 // 32 bits signed (eq. to long)
-public class Fixed {
-
-    public static final int SIZE = 32;
-    public static final int BYTES = SIZE / Byte.SIZE;
+public class Fixed extends ValueType {
 
     private byte[] fixed;
 
     public Fixed(byte[] fixed) {
         this.fixed = fixed;
+        SIZE = 32;
     }
 
     public byte[] getFixed() {

@@ -11,7 +11,7 @@ public class FontX {
 
 
 
-    private Version16Dot16 version;
+    private Version16Dot16.Type version;
     private int numTables;
 
     private List<TableRecord> tableRecords;
@@ -30,7 +30,7 @@ public class FontX {
     private int rangeShift;
 
     public FontX(){
-        version = Version16Dot16.Unknown;
+        version = Version16Dot16.Type.Unknown;
         numTables = 0;
         tableRecords = new ArrayList<>();
         searchRange = 0;
@@ -44,7 +44,7 @@ public class FontX {
         // Font version (sfnt)
         byte[] sfnt = new byte[4];
         buffer.get(0, sfnt, 0, 4);
-        fx.version = Version16Dot16.get(sfnt);
+        fx.version = (new Version16Dot16(sfnt)).getType();
 
         // numTables
         byte[] numTables = new byte[2];
@@ -110,11 +110,11 @@ public class FontX {
         System.out.println("-------------");
     }
 
-    public Version16Dot16 getVersion() {
+    public Version16Dot16.Type getVersion() {
         return version;
     }
 
-    public void setVersion(Version16Dot16 version) {
+    public void setVersion(Version16Dot16.Type version) {
         this.version = version;
     }
 
