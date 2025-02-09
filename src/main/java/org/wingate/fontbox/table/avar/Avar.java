@@ -1,10 +1,11 @@
 package org.wingate.fontbox.table.avar;
 
 import org.wingate.fontbox.table.TableIO;
+import org.wingate.fontbox.type.F2DOT14;
 import org.wingate.fontbox.type.UInt16;
-import org.wingate.fontbox.type.Version16Dot16;
 import org.wingate.fontbox.util.Entity;
 import org.wingate.fontbox.util.Field;
+import org.wingate.fontbox.util.Reader;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -76,15 +77,36 @@ public class Avar extends Entity implements TableIO {
         // Cursor
         int cursor = offset;
 
-
-
         // Read major version
-
+        majorVersion = new Field<>((UInt16) Reader.read(buffer, cursor, new UInt16(0)));
+        cursor += UInt16.SIZE / Byte.SIZE;
         // Read minor version
+        minorVersion = new Field<>((UInt16) Reader.read(buffer, cursor, new UInt16(0)));
+        cursor += UInt16.SIZE / Byte.SIZE;
         // Read (reserved)
+        reserved = new Field<>((UInt16) Reader.read(buffer, cursor, new UInt16(0)));
+        cursor += UInt16.SIZE / Byte.SIZE;
         // Read axis count
+        axisCount = new Field<>((UInt16) Reader.read(buffer, cursor, new UInt16(0)));
+        cursor += UInt16.SIZE / Byte.SIZE;
 
         // Init segment map
-        // -- Read segment map
+        for(int i=0; i<axisCount.getUnit().getUint16(); i++){
+            // Read segment map
+            Field<UInt16> pos = new Field<>((UInt16) Reader.read(buffer, cursor, new UInt16(0)));
+            cursor += UInt16.SIZE / Byte.SIZE;
+            SegmentMap sm = new SegmentMap(pos);
+            for(int j=0; j<pos.getUnit().getUint16(); j++){
+                // Read axis value map
+                AxisValueMap axis = new AxisValueMap();
+                axis.setFromCoordinate(new Field<>((F2DOT14) Reader.read(buffer, cursor, new F2DOT14(new byte[0]))));
+                cursor += F2DOT14.SIZE / Byte.SIZE;
+                axis.setToCoordinate(new Field<>((F2DOT14) Reader.read(buffer, cursor, new F2DOT14(new byte[0]))));
+                cursor += F2DOT14.SIZE / Byte.SIZE;
+                sm.getAxisValueMaps().add(new Field<>(axis));
+            }
+            axisSegmentMaps.add(new Field<>(sm));
+        }
+
     }
 }
