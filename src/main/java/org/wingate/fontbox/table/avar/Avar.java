@@ -32,6 +32,44 @@ public class Avar extends Entity implements TableIO {
         axisSegmentMaps = new ArrayList<>();
     }
 
+    @Override
+    public void read(ByteBuffer buffer, int offset, int length) {
+        // Cursor
+        int cursor = offset;
+
+        // Read major version
+        majorVersion = new Field<>((UInt16) Reader.read(buffer, cursor, new UInt16(0)));
+        cursor += UInt16.SIZE / Byte.SIZE;
+        // Read minor version
+        minorVersion = new Field<>((UInt16) Reader.read(buffer, cursor, new UInt16(0)));
+        cursor += UInt16.SIZE / Byte.SIZE;
+        // Read (reserved)
+        reserved = new Field<>((UInt16) Reader.read(buffer, cursor, new UInt16(0)));
+        cursor += UInt16.SIZE / Byte.SIZE;
+        // Read axis count
+        axisCount = new Field<>((UInt16) Reader.read(buffer, cursor, new UInt16(0)));
+        cursor += UInt16.SIZE / Byte.SIZE;
+
+        // Init segment map
+        for(int i=0; i<axisCount.getUnit().getUint16(); i++){
+            // Read segment map
+            Field<UInt16> pos = new Field<>((UInt16) Reader.read(buffer, cursor, new UInt16(0)));
+            cursor += UInt16.SIZE / Byte.SIZE;
+            SegmentMap sm = new SegmentMap(pos);
+            for(int j=0; j<pos.getUnit().getUint16(); j++){
+                // Read axis value map
+                AxisValueMap axis = new AxisValueMap();
+                axis.setFromCoordinate(new Field<>((F2DOT14) Reader.read(buffer, cursor, new F2DOT14(new byte[0]))));
+                cursor += F2DOT14.SIZE / Byte.SIZE;
+                axis.setToCoordinate(new Field<>((F2DOT14) Reader.read(buffer, cursor, new F2DOT14(new byte[0]))));
+                cursor += F2DOT14.SIZE / Byte.SIZE;
+                sm.getAxisValueMaps().add(new Field<>(axis));
+            }
+            axisSegmentMaps.add(new Field<>(sm));
+        }
+
+    }
+
     public Field<UInt16> getMajorVersion() {
         return majorVersion;
     }
@@ -72,41 +110,4 @@ public class Avar extends Entity implements TableIO {
         this.axisSegmentMaps = axisSegmentMaps;
     }
 
-    @Override
-    public void read(ByteBuffer buffer, int offset, int length) {
-        // Cursor
-        int cursor = offset;
-
-        // Read major version
-        majorVersion = new Field<>((UInt16) Reader.read(buffer, cursor, new UInt16(0)));
-        cursor += UInt16.SIZE / Byte.SIZE;
-        // Read minor version
-        minorVersion = new Field<>((UInt16) Reader.read(buffer, cursor, new UInt16(0)));
-        cursor += UInt16.SIZE / Byte.SIZE;
-        // Read (reserved)
-        reserved = new Field<>((UInt16) Reader.read(buffer, cursor, new UInt16(0)));
-        cursor += UInt16.SIZE / Byte.SIZE;
-        // Read axis count
-        axisCount = new Field<>((UInt16) Reader.read(buffer, cursor, new UInt16(0)));
-        cursor += UInt16.SIZE / Byte.SIZE;
-
-        // Init segment map
-        for(int i=0; i<axisCount.getUnit().getUint16(); i++){
-            // Read segment map
-            Field<UInt16> pos = new Field<>((UInt16) Reader.read(buffer, cursor, new UInt16(0)));
-            cursor += UInt16.SIZE / Byte.SIZE;
-            SegmentMap sm = new SegmentMap(pos);
-            for(int j=0; j<pos.getUnit().getUint16(); j++){
-                // Read axis value map
-                AxisValueMap axis = new AxisValueMap();
-                axis.setFromCoordinate(new Field<>((F2DOT14) Reader.read(buffer, cursor, new F2DOT14(new byte[0]))));
-                cursor += F2DOT14.SIZE / Byte.SIZE;
-                axis.setToCoordinate(new Field<>((F2DOT14) Reader.read(buffer, cursor, new F2DOT14(new byte[0]))));
-                cursor += F2DOT14.SIZE / Byte.SIZE;
-                sm.getAxisValueMaps().add(new Field<>(axis));
-            }
-            axisSegmentMaps.add(new Field<>(sm));
-        }
-
-    }
 }
