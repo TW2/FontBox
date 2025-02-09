@@ -5,6 +5,7 @@ import org.wingate.fontbox.type.UInt16;
 import org.wingate.fontbox.type.UInt32;
 import org.wingate.fontbox.util.Entity;
 import org.wingate.fontbox.util.Field;
+import org.wingate.fontbox.util.Reader;
 
 import java.nio.ByteBuffer;
 
@@ -32,7 +33,28 @@ public class Base extends Entity implements TableIO {
 
     @Override
     public void read(ByteBuffer buffer, int offset, int length) {
+        // Cursor
+        int cursor = offset;
 
+        // Read major version
+        majorVersion = new Field<>((UInt16) Reader.read(buffer, cursor, new UInt16(0)));
+        cursor += UInt16.SIZE / Byte.SIZE;
+        // Read minor version
+        minorVersion = new Field<>((UInt16) Reader.read(buffer, cursor, new UInt16(0)));
+        cursor += UInt16.SIZE / Byte.SIZE;
+
+        // Read horizontal axis offset
+        horizAxisOffset = new Field<>((UInt16) Reader.read(buffer, cursor, new UInt16(0)));
+        cursor += UInt16.SIZE / Byte.SIZE;
+        // Read vertical axis offset
+        vertAxisOffset = new Field<>((UInt16) Reader.read(buffer, cursor, new UInt16(0)));
+        cursor += UInt16.SIZE / Byte.SIZE;
+
+        if(minorVersion.getUnit().getUint16() == 1){
+            // Read item var store offset
+            itemVarStoreOffset = new Field<>((UInt32) Reader.read(buffer, cursor, new UInt32(0)));
+            cursor += UInt32.SIZE / Byte.SIZE;
+        }
     }
 
     public Field<UInt16> getMajorVersion() {
